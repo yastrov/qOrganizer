@@ -29,6 +29,7 @@ public:
     int rowOfChild(TreeItem *child) const;
     int row() const;
     TreeItem* takeChild(int row);
+    TreeItem* child(int row);
     void insertChild(int row, TreeItem *item);
     void appendChild(TreeItem *item);
 

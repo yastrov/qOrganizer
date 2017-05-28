@@ -77,6 +77,11 @@ TreeItem *TreeItem::takeChild(int row)
     return item;
 }
 
+TreeItem* TreeItem::child(int row)
+{
+    return childItems.value(row);
+}
+
 void TreeItem::insertChild(int row, TreeItem *item)
 {
     item->parentItem = this;
