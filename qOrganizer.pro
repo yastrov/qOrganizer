@@ -36,11 +36,13 @@ CONFIG(release, debug|release): {
 SOURCES += \
         src/main.cpp \
         src/gui/mainwindow.cpp \
-        src/model/treeitem.cpp
+        src/model/treeitem.cpp \
+        src/model/tasktreeitem.cpp \
 
 HEADERS += \
         src/gui/mainwindow.h \
-        src/model/treeitem.h
+        src/model/treeitem.h \
+        src/model/tasktreeitem.h \
 
 FORMS += \
         src/gui/mainwindow.ui
