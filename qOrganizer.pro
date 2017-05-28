@@ -35,10 +35,27 @@ CONFIG(release, debug|release): {
 
 SOURCES += \
         src/main.cpp \
-        src/gui/mainwindow.cpp
+        src/gui/mainwindow.cpp \
+        src/model/treeitem.cpp
 
 HEADERS += \
-        src/gui/mainwindow.h
+        src/gui/mainwindow.h \
+        src/model/treeitem.h
 
 FORMS += \
         src/gui/mainwindow.ui
+
+TRANSLATIONS += translations/qorganizer_ru.ts
+
+VERSION = 0.0.0.1
+#QMAKE_TARGET_COMPANY = company
+QMAKE_TARGET_PRODUCT = qOrganizer
+QMAKE_TARGET_DESCRIPTION = "Organizer app with tree tasks."
+QMAKE_TARGET_COPYRIGHT = (c) Yuriy Astrov
+# RC_ICONS = myappico.ico
+# RC_FILE = myapp.rc
+GITHUB_URL = "https://github.com/yastrov/qOrganizer"
+
+DEFINES += \
+APP_VERSION=\"\\\"$$VERSION\\\"\" \
+APP_URL=\"\\\"$$GITHUB_URL\\\"\" \
