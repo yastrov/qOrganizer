@@ -37,7 +37,8 @@ public:
     virtual QVariant data(int column, int role = Qt::DisplayRole) const;
     virtual bool setData(int column, const QVariant &value, int role = Qt::EditRole);
 
-private:
+
+protected:
     QList<TreeItem*> childItems;
     TreeItem *parentItem;
     QString _name;
