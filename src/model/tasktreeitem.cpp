@@ -4,12 +4,14 @@ TaskTreeItem::TaskTreeItem(const QString& name, int id, bool finished, TreeItem 
     :TreeItem(name, id, TreeItemType::Task, parent),
       _color(Qt::white), _finished(finished)
 {
-
+    QDate now = QDate::currentDate();
+    _startDate = now;
+    _endDate = now;
+    _time = QTime::currentTime();
 }
 
 TaskTreeItem::TaskTreeItem(const QString& name, int id, TreeItem *parent)
-    :TreeItem(name, id, TreeItemType::Task, parent),
-      _color(Qt::white), _finished(false)
+    : TaskTreeItem(name, id, TreeItemType::Task, parent)
 {
 
 }
