@@ -3,7 +3,13 @@
 TreeItem::TreeItem(const QString& name, int id, TreeItemType type, TreeItem *parent):
     parentItem(parent), _name(name), _id(id), _type(type)
 {
+    if(parentItem)
+        parentItem->appendChild(this);
+}
 
+TreeItem::TreeItem(const QString& name, int id, TreeItem *parent):
+    TreeItem(name, id, TreeItemType::Folder, parent)
+{
 }
 
 TreeItem::~TreeItem()

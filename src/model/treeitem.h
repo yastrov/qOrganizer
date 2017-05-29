@@ -15,6 +15,7 @@ class TreeItem
 {
 public:
     explicit TreeItem(const QString& name="Node", int id=0, TreeItemType type=TreeItemType::Folder, TreeItem *parent=nullptr);
+    explicit TreeItem(const QString& name="Node", int id=0, TreeItem *parent=nullptr);
     virtual ~TreeItem();
 
     TreeItemType type() const;
