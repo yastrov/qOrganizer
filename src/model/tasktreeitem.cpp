@@ -80,6 +80,37 @@ QVariant TaskTreeItem::data(int column, int role) const
 {
     if (column >= _maxColumn)
         return QVariant();
+    switch(role){
+    case Qt::DisplayRole:
+        switch(column) {
+        case TaskTreeItemColumn::Finished: return QVariant();
+        case TaskTreeItemColumn::Color: return QVariant();
+        }
+    case Qt::EditRole:
+        switch(column) {
+        case TaskTreeItemColumn::Name: return _name;
+        case TaskTreeItemColumn::Finished: return _finished;
+        case TaskTreeItemColumn::Color: return _color;
+        case TaskTreeItemColumn::DateStart: return _startDate;
+        case TaskTreeItemColumn::DateEnd: return _endDate;
+        case TaskTreeItemColumn::Time: return _time;
+        }
+        break;
+    case Qt::BackgroundColorRole:
+        if(column == TaskTreeItemColumn::Color)
+            return _color;
+        break;
+    case Qt::CheckStateRole:
+        if(column == TaskTreeItemColumn::Finished) {
+            if(_finished)
+                return Qt::Checked;
+            else return Qt::Unchecked;
+        }
+        break;
+    case Qt::ToolTipRole:
+    default:
+        ;
+    }
 
     return QVariant();
 }
@@ -88,6 +119,41 @@ bool TaskTreeItem::setData(int column, const QVariant &value, int role)
 {
     if (column >= _maxColumn)
         return false;
-
+    if(role == Qt::CheckStateRole) {
+        if(column == TaskTreeItemColumn::Finished) {
+            if (value.toInt() == Qt::Checked) {
+                _finished = true;
+            } else {
+                _finished = false;
+            }
+            return true;
+        }
+        return false;
+    }
+    if (role != Qt::EditRole)
+        return false;
+    switch(column){
+    case TaskTreeItemColumn::Name:
+        _name = value.toString();
+        break;
+    case TaskTreeItemColumn::Finished:
+        _finished = value.toBool();
+        break;
+    case TaskTreeItemColumn::Color:
+        _color = value.value<QColor>();
+        break;
+    case TaskTreeItemColumn::DateStart:
+        _startDate = value.toDate();
+        break;
+    case TaskTreeItemColumn::DateEnd:
+        _endDate = value.toDate();
+        break;
+    case TaskTreeItemColumn::Time:
+        _time = value.toTime();
+        break;
+    default:
+        return false;
+    }
+    return true;
     return false;
 }
