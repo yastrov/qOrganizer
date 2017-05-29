@@ -38,11 +38,15 @@ SOURCES += \
         src/gui/mainwindow.cpp \
         src/model/treeitem.cpp \
         src/model/tasktreeitem.cpp \
+    src/model/tasktreemodel.cpp \
+
 
 HEADERS += \
         src/gui/mainwindow.h \
         src/model/treeitem.h \
         src/model/tasktreeitem.h \
+    src/model/tasktreemodel.h \
+
 
 FORMS += \
         src/gui/mainwindow.ui
