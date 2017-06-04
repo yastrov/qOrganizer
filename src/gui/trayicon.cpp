@@ -12,7 +12,8 @@ TrayIcon::TrayIcon(QObject *parent):
 
     createMenu();
     setToolTip(tr("Bubble Message"));
-    timer.setInterval(TIME_CONSTANTS::MINUTE);
+
+    timer.setInterval(TIME_CONSTANTS::REGULAR_INTERVAL);
     // Very coarse timers only keep full second accuracy
     timer.setTimerType(Qt::VeryCoarseTimer);
     timer.start();
@@ -53,8 +54,25 @@ void TrayIcon::on_exit(bool checked)
 
 void TrayIcon::on_timer()
 {
-    if(supportsMessages()) {
-        showMessage(tr("Message"), tr("Message"));
+    const QDateTime now = QDateTime::currentDateTime();
+    while(!dateTimes.empty()) {
+        const DateNotifyElement &el = dateTimes.first();
+        if(abs(now.secsTo(el.dtime)) < TIME_CONSTANTS::EPSILON_MINUTE_IN_SEC) {
+            if(supportsMessages()) {
+                showMessage(tr("Message"), el.message);
+            }
+            setToolTip(el.message);
+            dateTimes.removeFirst();
+        }
+    }
+    // If midnight load new from file or DB
+    const QTime midnight(0,0);
+    const QTime currentTime = now.time();
+    if(abs(midnight.secsTo(currentTime)) < TIME_CONSTANTS::EPSILON_MINUTE_IN_SEC) {
+        QDate date = now.date();
+        if(currentTime.hour() > 0)
+            date = date.addDays(1);
+        loadDatesForDate(date);
     }
 }
 
@@ -112,4 +130,12 @@ void TrayIcon::stopMainTimer()
     if(timer.isActive()) {
         timer.stop();
     }
+}
+
+void TrayIcon::loadDatesForDate(const QDate &date)
+{
+    dateTimes.clear();
+    std::sort(dateTimes.begin(), dateTimes.end(), [](const DateNotifyElement &v1, const DateNotifyElement &v2)->bool {
+        return v1.dtime < v2.dtime;
+    });
 }
